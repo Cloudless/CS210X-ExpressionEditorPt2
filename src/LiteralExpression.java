@@ -20,6 +20,10 @@ public class LiteralExpression implements Expression {
         return label;
     }
 
+    public String getValue() {
+        return _value;
+    }
+
     /**
      * Constructs a literal expression
      *

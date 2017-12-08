@@ -1,9 +1,19 @@
+import javafx.scene.Node;
+
 /**
  *
  * An expression that is enclosed by parenthesis.
  *
  */
 public class ParentheticalExpression extends AbstractCompoundExpression {
+
+    /**
+     * Returns the JavaFX node associated with this expression.
+     * @return the JavaFX node associated with this expression.
+     */
+    public Node getNode (){
+        return null;
+    }
 
     /**
      * Method that flattens the expression tree.

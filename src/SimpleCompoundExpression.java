@@ -1,3 +1,5 @@
+import javafx.scene.Node;
+
 import java.util.ArrayList;
 
 /**
@@ -6,6 +8,14 @@ import java.util.ArrayList;
  *
  */
 public class SimpleCompoundExpression extends AbstractCompoundExpression {
+
+    /**
+     * Returns the JavaFX node associated with this expression.
+     * @return the JavaFX node associated with this expression.
+     */
+    public Node getNode (){
+        return null;
+    }
 
     // instance variable
     private String _operation;

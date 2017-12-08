@@ -1,3 +1,5 @@
+import javafx.scene.Node;
+
 /**
  *
  * An expression that has a literal value -> [0-9]+ | [a-z]
@@ -8,6 +10,14 @@ public class LiteralExpression implements Expression {
     // instance variables
     private CompoundExpression _parent;
     private String _value;
+
+    /**
+     * Returns the JavaFX node associated with this expression.
+     * @return the JavaFX node associated with this expression.
+     */
+    public Node getNode (){
+        return null;
+    }
 
     /**
      * Constructs a literal expression

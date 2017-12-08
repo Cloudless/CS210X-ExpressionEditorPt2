@@ -15,7 +15,7 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
     public Node getNode (){
         String labelText = "(";
         for (Expression e : this.getChildren()) {
-            labelText = labelText + e.getNode().getAccessibleText();
+            labelText = labelText + e.getNode();
         }
         labelText += ")";
         Label label = new Label(labelText);

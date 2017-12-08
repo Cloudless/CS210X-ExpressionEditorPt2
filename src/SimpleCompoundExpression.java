@@ -15,9 +15,9 @@ public class SimpleCompoundExpression extends AbstractCompoundExpression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        String labelText = "" + this.getChildren().get(0).getNode().getAccessibleText();
+        String labelText = "" + this.getChildren().get(0).getNode();
         for (int i = 1; i < this.getChildren().size(); i++) {
-            labelText = labelText + _operation + this.getChildren().get(i).getNode().getAccessibleText();
+            labelText = labelText + _operation + this.getChildren().get(i).getNode();
         }
         Label label = new Label(labelText);
         return label;

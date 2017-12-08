@@ -10,17 +10,24 @@ import java.util.ArrayList;
  */
 public class SimpleCompoundExpression extends AbstractCompoundExpression {
 
+    private Node _node;
+
     /**
      * Returns the JavaFX node associated with this expression.
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
+        return _node;
+    }
+
+    public void setNode (){
+        this.getChildren().get(0).setNode();
         String labelText = "" + ((Label) this.getChildren().get(0).getNode()).getText();
         for (int i = 1; i < this.getChildren().size(); i++) {
+            this.getChildren().get(i).setNode();
             labelText = labelText + _operation + ((Label) this.getChildren().get(i).getNode()).getText();
         }
-        Label label = new Label(labelText);
-        return label;
+        _node = new Label(labelText);
     }
 
     // instance variable

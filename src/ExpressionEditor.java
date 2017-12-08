@@ -72,10 +72,11 @@ public class ExpressionEditor extends Application {
 					// Success! Add the expression's Node to the expressionPane
 					final Expression expression = expressionParser.parse(textField.getText(), true);
 					System.out.println(expression.convertToString(0));
+					expression.setNode();
 					expressionPane.getChildren().clear();
 					expressionPane.getChildren().add(expression.getNode());
 					expression.getNode().setLayoutX(WINDOW_WIDTH/4);
-					expression.getNode().setLayoutY(WINDOW_HEIGHT/2);
+					expression.getNode().setLayoutY(WINDOW_HEIGHT/3);
 
 					// If the parsed expression is a CompoundExpression, then register some callbacks
 					if (expression instanceof CompoundExpression) {

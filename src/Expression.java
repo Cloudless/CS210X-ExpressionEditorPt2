@@ -47,6 +47,8 @@ interface Expression {
 	 */
 	Node getNode ();
 
+	void setNode ();
+
 	/**
 	 * Recursively flattens the expression as much as possible
 	 * throughout the entire tree. Specifically, in every multiplicative

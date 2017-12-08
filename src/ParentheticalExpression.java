@@ -8,18 +8,24 @@ import javafx.scene.control.Label;
  */
 public class ParentheticalExpression extends AbstractCompoundExpression {
 
+    private Node _node;
+
     /**
      * Returns the JavaFX node associated with this expression.
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
+        return _node;
+    }
+
+    public void setNode (){
         String labelText = "(";
         for (Expression e : this.getChildren()) {
+            e.setNode();
             labelText = labelText + ((Label) e.getNode()).getText();
         }
         labelText += ")";
-        Label label = new Label(labelText);
-        return label;
+        _node = new Label(labelText);
     }
 
     /**

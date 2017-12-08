@@ -10,14 +10,18 @@ public class LiteralExpression implements Expression {
     // instance variables
     private CompoundExpression _parent;
     private String _value;
+    private Node _node;
 
     /**
      * Returns the JavaFX node associated with this expression.
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        Label label = new Label(_value);
-        return label;
+        return _node;
+    }
+
+    public void setNode (){
+        _node = new Label(_value);
     }
 
     public String getValue() {

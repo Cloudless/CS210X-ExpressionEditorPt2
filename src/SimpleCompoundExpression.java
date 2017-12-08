@@ -1,4 +1,5 @@
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,12 @@ public class SimpleCompoundExpression extends AbstractCompoundExpression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return null;
+        String labelText = "" + this.getChildren().get(0).getNode().getAccessibleText();
+        for (int i = 1; i < this.getChildren().size(); i++) {
+            labelText = labelText + _operation + this.getChildren().get(i).getNode().getAccessibleText();
+        }
+        Label label = new Label(labelText);
+        return label;
     }
 
     // instance variable

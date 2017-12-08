@@ -1,5 +1,5 @@
 import javafx.scene.Node;
-
+import javafx.scene.control.Label;
 /**
  *
  * An expression that has a literal value -> [0-9]+ | [a-z]
@@ -16,7 +16,8 @@ public class LiteralExpression implements Expression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return null;
+        Label label = new Label(_value);
+        return label;
     }
 
     /**

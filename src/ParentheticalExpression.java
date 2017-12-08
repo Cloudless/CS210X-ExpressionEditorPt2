@@ -1,4 +1,5 @@
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 
 /**
  *
@@ -12,7 +13,13 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return null;
+        String labelText = "(";
+        for (Expression e : this.getChildren()) {
+            labelText = labelText + e.getNode().getAccessibleText();
+        }
+        labelText += ")";
+        Label label = new Label(labelText);
+        return label;
     }
 
     /**

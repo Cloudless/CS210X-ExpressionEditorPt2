@@ -17,11 +17,11 @@ public class LiteralExpression implements Expression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return _node;
-    }
-
-    public void setNode (){
+        if(_node != null){
+            return _node;
+        }
         _node = new Label(_value);
+        return _node;
     }
 
     public String getValue() {

@@ -1,5 +1,7 @@
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import java.util.ArrayList;
 
@@ -17,17 +19,17 @@ public class SimpleCompoundExpression extends AbstractCompoundExpression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return _node;
-    }
-
-    public void setNode (){
-        this.getChildren().get(0).setNode();
-        String labelText = "" + ((Label) this.getChildren().get(0).getNode()).getText();
-        for (int i = 1; i < this.getChildren().size(); i++) {
-            this.getChildren().get(i).setNode();
-            labelText = labelText + _operation + ((Label) this.getChildren().get(i).getNode()).getText();
+        if(_node != null){
+            return _node;
         }
-        _node = new Label(labelText);
+        HBox hbox = new HBox();
+        HBox.setHgrow(this.getChildren().get(0).getNode(), Priority.ALWAYS);
+        for(int i = 1; i < this.getChildren().size(); i++){
+            HBox.setHgrow(new Label(_operation), Priority.ALWAYS);
+            HBox.setHgrow(this.getChildren().get(i).getNode(), Priority.ALWAYS);
+        }
+        _node = hbox;
+        return _node;
     }
 
     // instance variable

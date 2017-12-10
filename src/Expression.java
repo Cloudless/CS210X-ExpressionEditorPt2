@@ -25,7 +25,7 @@ interface Expression {
 	 * @return the expression's parent
 	 */
 	CompoundExpression getParent ();
-        
+
 	/**
          * Sets the parent be the specified expression.
          * @param parent the CompoundExpression that should be the parent of the target object
@@ -47,8 +47,6 @@ interface Expression {
 	 */
 	Node getNode ();
 
-	void setNode ();
-
 	/**
 	 * Recursively flattens the expression as much as possible
 	 * throughout the entire tree. Specifically, in every multiplicative
@@ -63,7 +61,7 @@ interface Expression {
 	 * tree represented by this expression, starting at the specified indentation level.
 	 * @param indentLevel the indentation level (number of tabs from the left margin) at which to start
 	 * @return a String representation of the expression tree.
-	 */	
+	 */
 	String convertToString (int indentLevel);
 
 	/**

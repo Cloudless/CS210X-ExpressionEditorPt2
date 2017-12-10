@@ -66,7 +66,7 @@ public class ExpressionEditor extends Application {
 
 		final Pane expressionPane = new Pane();
 
-		// Add the callback to handle when the Parse button is pressed	
+		// Add the callback to handle when the Parse button is pressed
 		button.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle (MouseEvent e) {
 				// Try to parse the expression
@@ -74,7 +74,6 @@ public class ExpressionEditor extends Application {
 					// Success! Add the expression's Node to the expressionPane
 					final Expression expression = expressionParser.parse(textField.getText(), true);
 					System.out.println(expression.convertToString(0));
-					expression.setNode();
 					expressionPane.getChildren().clear();
 					expressionPane.getChildren().add(expression.getNode());
 					expression.getNode().setLayoutX(WINDOW_WIDTH/4);

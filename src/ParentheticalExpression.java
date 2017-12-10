@@ -1,5 +1,7 @@
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  *
@@ -15,17 +17,15 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
      * @return the JavaFX node associated with this expression.
      */
     public Node getNode (){
-        return _node;
-    }
-
-    public void setNode (){
-        String labelText = "(";
-        for (Expression e : this.getChildren()) {
-            e.setNode();
-            labelText = labelText + ((Label) e.getNode()).getText();
+        if(_node != null){
+            return _node;
         }
-        labelText += ")";
-        _node = new Label(labelText);
+        HBox hbox = new HBox();
+        HBox.setHgrow(new Label("("), Priority.ALWAYS);
+        HBox.setHgrow(this.getChildren().get(0).getNode(), Priority.ALWAYS);
+        HBox.setHgrow(new Label(")"), Priority.ALWAYS);
+        _node = hbox;
+        return _node;
     }
 
     /**

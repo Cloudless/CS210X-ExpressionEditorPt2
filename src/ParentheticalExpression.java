@@ -21,9 +21,9 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
             return _node;
         }
         HBox hbox = new HBox();
-        HBox.setHgrow(new Label("("), Priority.ALWAYS);
-        HBox.setHgrow(this.getChildren().get(0).getNode(), Priority.ALWAYS);
-        HBox.setHgrow(new Label(")"), Priority.ALWAYS);
+        hbox.getChildren().add(new Label("("));
+        hbox.getChildren().add(this.getChildren().get(0).getNode());
+        hbox.getChildren().add(new Label(")"));
         _node = hbox;
         return _node;
     }
@@ -75,4 +75,8 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
         return copy;
     }
 
+    public void setFocus(){
+        _node.setStyle("-fx-border-style: solid");
+        _node.setStyle("-fx-border-color: red");
+    }
 }

@@ -99,4 +99,8 @@ public class LiteralExpression implements Expression {
         return (converted);
     }
 
+    public void setFocus(){
+        _node.setStyle("-fx-border-style: solid");
+        _node.setStyle("-fx-border-color: red");
+    }
 }

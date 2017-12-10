@@ -23,10 +23,10 @@ public class SimpleCompoundExpression extends AbstractCompoundExpression {
             return _node;
         }
         HBox hbox = new HBox();
-        HBox.setHgrow(this.getChildren().get(0).getNode(), Priority.ALWAYS);
+        hbox.getChildren().add(this.getChildren().get(0).getNode());
         for(int i = 1; i < this.getChildren().size(); i++){
-            HBox.setHgrow(new Label(_operation), Priority.ALWAYS);
-            HBox.setHgrow(this.getChildren().get(i).getNode(), Priority.ALWAYS);
+            hbox.getChildren().add(new Label(_operation));
+            hbox.getChildren().add(this.getChildren().get(i).getNode());
         }
         _node = hbox;
         return _node;
@@ -103,5 +103,10 @@ public class SimpleCompoundExpression extends AbstractCompoundExpression {
             ((AbstractCompoundExpression) copy).addSubexpression(e.deepCopy());
         }
         return copy;
+    }
+
+    public void setFocus(){
+        _node.setStyle("-fx-border-style: solid");
+        _node.setStyle("-fx-border-color: red");
     }
 }

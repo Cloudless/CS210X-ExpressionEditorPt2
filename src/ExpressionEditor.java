@@ -78,8 +78,7 @@ public class ExpressionEditor extends Application {
 					expressionPane.getChildren().add(expression.getNode());
 					expression.getNode().setLayoutX(WINDOW_WIDTH/4);
 					expression.getNode().setLayoutY(WINDOW_HEIGHT/3);
-					expression.getNode().setStyle("-fx-border-style: solid");
-					expression.getNode().setStyle("-fx-border-color: red");
+					((AbstractCompoundExpression) expression).getChildren().get(0).setFocus();
 
 					// If the parsed expression is a CompoundExpression, then register some callbacks
 					if (expression instanceof CompoundExpression) {

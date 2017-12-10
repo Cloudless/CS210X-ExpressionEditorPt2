@@ -40,7 +40,6 @@ interface Expression {
 	 */
 	Expression deepCopy ();
 
-
 	/**
 	 * Returns the JavaFX node associated with this expression.
 	 * @return the JavaFX node associated with this expression.
@@ -75,4 +74,7 @@ interface Expression {
 			sb.append('\t');
 		}
 	}
+
+	public void setFocus();
+
 }

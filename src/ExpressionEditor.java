@@ -1,4 +1,6 @@
 import javafx.application.Application;
+
+import java.awt.*;
 import java.util.*;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
@@ -77,6 +79,8 @@ public class ExpressionEditor extends Application {
 					expressionPane.getChildren().add(expression.getNode());
 					expression.getNode().setLayoutX(WINDOW_WIDTH/4);
 					expression.getNode().setLayoutY(WINDOW_HEIGHT/3);
+					expression.getNode().setStyle("-fx-border-style: solid");
+					expression.getNode().setStyle("-fx-border-color: red");
 
 					// If the parsed expression is a CompoundExpression, then register some callbacks
 					if (expression instanceof CompoundExpression) {
@@ -96,7 +100,7 @@ public class ExpressionEditor extends Application {
 
 		// Reset the color to black whenever the user presses a key
 		textField.setOnKeyPressed(e -> textField.setStyle("-fx-text-fill: black"));
-		
+
 		final BorderPane root = new BorderPane();
 		root.setTop(queryPane);
 		root.setCenter(expressionPane);

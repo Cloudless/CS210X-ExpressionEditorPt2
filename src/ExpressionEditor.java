@@ -57,11 +57,6 @@ public class ExpressionEditor extends Application {
             final double sceneY = event.getSceneY();
 
             if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-
-            } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-                _focus.setTranslateX(_focus.getTranslateX() + sceneX - _lastX);
-                _focus.setTranslateY(_focus.getTranslateY() + sceneY - _lastY);
-            } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
                 boolean childContainsClick = false;
 
                 for (Node child : _focus.getChildrenUnmodifiable()) {
@@ -88,14 +83,16 @@ public class ExpressionEditor extends Application {
                         }
                     }
                 }
-
                 if (!childContainsClick) {
                     clearFocus();
                 }
+            } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+                _focus.setTranslateX(_focus.getTranslateX() + sceneX - _lastX);
+                _focus.setTranslateY(_focus.getTranslateY() + sceneY - _lastY);
+            } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
                 _focus.setTranslateX(0);
                 _focus.setTranslateY(0);
             }
-
             _lastX = sceneX;
             _lastY = sceneY;
         }

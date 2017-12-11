@@ -74,9 +74,4 @@ public class ParentheticalExpression extends AbstractCompoundExpression {
         }
         return copy;
     }
-
-    public void setFocus(){
-        _node.setStyle("-fx-border-style: solid");
-        _node.setStyle("-fx-border-color: red");
-    }
 }

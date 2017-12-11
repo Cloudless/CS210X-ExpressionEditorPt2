@@ -89,9 +89,13 @@ public class ExpressionEditor extends Application {
 
 
             } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-                _focus.setTranslateX(_focus.getTranslateX() + sceneX - _lastX);
-                _focus.setTranslateY(_focus.getTranslateY() + sceneY - _lastY);
+                Expression _copy = _root.deepCopy();
+                Pane dragCopy = (Pane) _copy.getNode();
+                _focus.setStyle("-fx-text-fill: Color.LIGHTGREY");
+                dragCopy.setTranslateX(_focus.getTranslateX() + sceneX - _lastX);
+                dragCopy.setTranslateY(_focus.getTranslateY() + sceneY - _lastY);
             } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
+
                 _focus.setTranslateX(0);
                 _focus.setTranslateY(0);
             }

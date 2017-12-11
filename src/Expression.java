@@ -75,6 +75,4 @@ interface Expression {
 		}
 	}
 
-	public void setFocus();
-
 }

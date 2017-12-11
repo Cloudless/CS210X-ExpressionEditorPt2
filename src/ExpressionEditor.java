@@ -3,24 +3,25 @@ import javafx.application.Application;
 import java.awt.*;
 import java.util.*;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Labeled;
+import javafx.scene.layout.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
-import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class ExpressionEditor extends Application {
-	public static void main (String[] args) {
+	public static void main(String[] args) {
 		launch(args);
 	}
 
@@ -28,14 +29,74 @@ public class ExpressionEditor extends Application {
 	 * Mouse event handler for the entire pane that constitutes the ExpressionEditor
 	 */
 	private static class MouseEventHandler implements EventHandler<MouseEvent> {
-		MouseEventHandler (Pane pane_, CompoundExpression rootExpression_) {
+
+		private CompoundExpression _root;
+		private Pane _pane;
+		private double _lastX;
+		private double _lastY;
+		private Region _focus;
+		private final Region _hbox;
+
+		MouseEventHandler(Pane pane, CompoundExpression rootExpression) {
+			this._pane = pane;
+			_root = rootExpression;
+			_focus = (Pane) _pane.getChildren().get(0);
+			_hbox = (Pane) _pane.getChildren().get(0);
 		}
 
-		public void handle (MouseEvent event) {
+		private void clearFocus() {
+			_focus.setBorder(Expression.NO_BORDER);
+			_focus = _hbox;
+			_focus.setBorder(Expression.NO_BORDER);
+		}
+
+		public void handle(MouseEvent event) {
+			final double sceneX = event.getSceneX();
+			final double sceneY = event.getSceneY();
+
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+
+				boolean childContainsClick = false;
+
+				for (Node child : _focus.getChildrenUnmodifiable()) {
+					if (child.contains(child.sceneToLocal(sceneX, sceneY))) {
+						childContainsClick = true;
+						if (child instanceof Label) {
+							if (!((Label) child).getText().equals("*") && !((Label) child).getText().equals("+")) {
+								if (_focus != null) {
+									clearFocus();
+								}
+								_focus = (Region) child;
+								_focus.setBorder(Expression.RED_BORDER);
+							} else {
+								clearFocus();
+							}
+						} else if (child instanceof Text) {
+							clearFocus();
+						} else {
+							if (_focus != null) {
+								_focus.setBorder(Expression.NO_BORDER);
+							}
+							_focus = (Region) child;
+							_focus.setBorder(Expression.RED_BORDER);
+						}
+					}
+				}
+
+				if (!childContainsClick) {
+					clearFocus();
+				}
+
+
 			} else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+				_focus.setTranslateX(_focus.getTranslateX() + sceneX - _lastX);
+				_focus.setTranslateY(_focus.getTranslateY() + sceneY - _lastY);
 			} else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
+
 			}
+
+			_lastX = sceneX;
+			_lastY = sceneY;
 		}
 	}
 
@@ -55,7 +116,7 @@ public class ExpressionEditor extends Application {
 	private final ExpressionParser expressionParser = new SimpleExpressionParser();
 
 	@Override
-	public void start (Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Expression Editor");
 
 		// Add the textbox and Parser button
@@ -68,7 +129,7 @@ public class ExpressionEditor extends Application {
 
 		// Add the callback to handle when the Parse button is pressed
 		button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle (MouseEvent e) {
+			public void handle(MouseEvent e) {
 				// Try to parse the expression
 				try {
 					// Success! Add the expression's Node to the expressionPane
@@ -76,9 +137,8 @@ public class ExpressionEditor extends Application {
 					System.out.println(expression.convertToString(0));
 					expressionPane.getChildren().clear();
 					expressionPane.getChildren().add(expression.getNode());
-					expression.getNode().setLayoutX(WINDOW_WIDTH/4);
-					expression.getNode().setLayoutY(WINDOW_HEIGHT/3);
-					((AbstractCompoundExpression) expression).getChildren().get(0).setFocus();
+					expression.getNode().setLayoutX(WINDOW_WIDTH / 4);
+					expression.getNode().setLayoutY(WINDOW_HEIGHT / 2);
 
 					// If the parsed expression is a CompoundExpression, then register some callbacks
 					if (expression instanceof CompoundExpression) {

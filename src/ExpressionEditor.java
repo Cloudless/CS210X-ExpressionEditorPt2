@@ -31,12 +31,11 @@ public class ExpressionEditor extends Application {
     private static class MouseEventHandler implements EventHandler<MouseEvent> {
 
         private CompoundExpression _root;
-        private Expression _copy;
-        private Region _copyPane;
         private Pane _pane;
         private double _lastX;
         private double _lastY;
         private Region _focus;
+        private Region _copy;
         private final Region _hbox;
 
         MouseEventHandler(Pane pane, CompoundExpression rootExpression) {
@@ -63,7 +62,7 @@ public class ExpressionEditor extends Application {
                     if (child.contains(child.sceneToLocal(sceneX, sceneY))) {
                         childContainsClick = true;
                         if (child instanceof Label) {
-                            if (!((Label) child).getText().equals("*") && !((Label) child).getText().equals("+")) {
+                            if (!((Label) child).getText().equals("*") && !((Label) child).getText().equals("+") && !((Label) child).getText().equals("(") && !((Label) child).getText().equals(")")) {
                                 if (_focus != null) {
                                     clearFocus();
                                 }

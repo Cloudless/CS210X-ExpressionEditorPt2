@@ -35,6 +35,8 @@ public class ExpressionEditor2 extends Application {
         Expression _copyExpression;
         double _lastX;
         double _lastY;
+        double _clickedX;
+        double _clickedY;
 
         MouseEventHandler (Pane pane, CompoundExpression rootExpression) {
             _pane = pane;
@@ -49,6 +51,8 @@ public class ExpressionEditor2 extends Application {
             final double y = event.getSceneY();
 
             if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                _clickedX = event.getSceneX();
+                _clickedY = event.getSceneY();
             }else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
                 // so long as an expression is currently in focus...
                 if (_focusedExpression != null) {
@@ -68,10 +72,10 @@ public class ExpressionEditor2 extends Application {
                 //if there is currently no copy, then change focus
                 if (_copyExpression == null) {
                     if (_focusedExpression == null) {
-                        _focusedExpression = _rootExpression.focus(x, y);
+                        _focusedExpression = _rootExpression.focus(_clickedX, _clickedY);
                     } else {
                         ((Region) _focusedExpression.getNode()).setBorder(Expression.NO_BORDER);
-                        _focusedExpression = _focusedExpression.focus(x, y);
+                        _focusedExpression = _focusedExpression.focus(_clickedX, _clickedY);
                     }
                 } else {
                     //if there is a copy, set it down (aka set it to null and remove from pane)

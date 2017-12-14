@@ -61,7 +61,7 @@ public class ExpressionEditor2 extends Application {
                         _copyExpression.getNode().setTranslateX(_copyExpression.getNode().getTranslateX() + (x - _lastX));
                         _copyExpression.getNode().setTranslateY(_copyExpression.getNode().getTranslateY() + (y - _lastY));
                         //swaps focused expression accordingly
-                        swap(_focusedExpression, x);
+                        swap(_focusedExpression, _copyExpression.getNode().getLayoutX() + _copyExpression.getNode().getTranslateX());
                     }
                 }
             } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {

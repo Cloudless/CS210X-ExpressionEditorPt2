@@ -1,5 +1,9 @@
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 /**
@@ -120,5 +124,23 @@ public abstract class AbstractCompoundExpression implements CompoundExpression {
             }
         }
         return null;
+    }
+
+    /**
+     * Changes color of the text in the expression's JavaFX node to given color
+     * Also recursively changes the color of all children's JavaFX nodes
+     * @param c the given color
+     */
+    public void setColor(Color c) {
+        for(Node child : ((HBox) this.getNode()).getChildren()) {
+            if (child instanceof Label) {
+                ((Label) child).setTextFill(c);
+            }
+        }
+        for(Expression child : _children) {
+            if (!(child.getNode() instanceof Label)) {
+                child.setColor(c);
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ public class ExpressionEditor2 extends Application {
                     }
                 } else {
                     //if there is a copy, set it down (aka set it to null and remove from pane)
-                    //TODO: SET UNNEEDED COPY TO BLACK
+                    _focusedExpression.setColor(Color.BLACK);
                     _pane.getChildren().remove(_copyExpression.getNode());
                     _copyExpression = null;
                 }
@@ -90,7 +90,7 @@ public class ExpressionEditor2 extends Application {
          */
         private void buildCopy() {
             _copyExpression = _focusedExpression.deepCopy();
-            //TODO: MAKE GHOST GREY
+            _focusedExpression.setColor(Expression.GHOST_COLOR);
             _pane.getChildren().add(_copyExpression.getNode());
 
             Bounds originalBounds = _focusedExpression.getNode().localToScene(_focusedExpression.getNode().getBoundsInLocal());

@@ -1,3 +1,4 @@
+import javafx.scene.control.Labeled;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.Node;
@@ -77,4 +78,9 @@ interface Expression {
 
 	Expression focus(double x, double y);
 
+	/**
+	 * Changes color of the text in the expression's JavaFX node to given color
+	 * @param c the given color
+	 */
+	void setColor(Color c);
 }

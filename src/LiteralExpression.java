@@ -1,5 +1,8 @@
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.paint.Color;
+
 /**
  *
  * An expression that has a literal value -> [0-9]+ | [a-z]
@@ -101,6 +104,14 @@ public class LiteralExpression implements Expression {
 
     public Expression focus(double x, double y){
         return null;
+    }
+
+    /**
+     * Changes color of the text in the expression's JavaFX node to given color
+     * @param c the given color
+     */
+    public void setColor(Color c) {
+        ((Labeled) _node).setTextFill(c);
     }
 
 }

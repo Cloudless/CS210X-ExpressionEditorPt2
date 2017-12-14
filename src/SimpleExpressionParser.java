@@ -36,7 +36,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the string
-	 * @param str the string to be parsed
+	 * 
+	 * @param str
+	 *            the string to be parsed
 	 * @return the parsed expression
 	 */
 	private Expression parseExpression(String str) {
@@ -45,7 +47,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the E string using the rule E -> A | X
-	 * @param str the E string to be parsed
+	 * 
+	 * @param str
+	 *            the E string to be parsed
 	 * @return the expression if it can be parsed, null otherwise
 	 */
 	private Expression parseE(String str) {
@@ -59,7 +63,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the A string using the rule A -> A + M | M
-	 * @param str the A string to be parsed
+	 * 
+	 * @param str
+	 *            the A string to be parsed
 	 * @return the expression if it can be parsed, null otherwise
 	 */
 	private Expression parseA(String str) {
@@ -83,7 +89,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the M string using the rule M -> M * M | X
-	 * @param str the M string to be parsed
+	 * 
+	 * @param str
+	 *            the M string to be parsed
 	 * @return the parsed expression if it can be parsed, null otherwise
 	 */
 	private Expression parseM(String str) {
@@ -107,7 +115,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the X string using the rule X -> (E) | L
-	 * @param str the X string to be parsed
+	 * 
+	 * @param str
+	 *            the X string to be parsed
 	 * @return the parsed expression if it can be parsed, null otherwise
 	 */
 	private Expression parseX(String str) {
@@ -126,7 +136,9 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	/**
 	 * Parses the L string using the rule L -> [0-9]+ | [a-z]
-	 * @param str the L string to be parsed
+	 * 
+	 * @param str
+	 *            the L string to be parsed
 	 * @return the parsed expression if it can be parsed, null otherwise
 	 */
 	private Expression parseL(String str) {

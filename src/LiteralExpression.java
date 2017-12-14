@@ -103,15 +103,24 @@ public class LiteralExpression implements Expression {
 		return (converted);
 	}
 
+	/**
+	 * Gets the focus at click (x, y) or null if none exists
+	 *
+	 * @param x
+	 *            current x coordinate
+	 * @param y
+	 *            current y coordinate
+	 * @return the new focused Expression
+	 */
 	public Expression focus(double x, double y) {
 		return null;
 	}
 
 	/**
-	 * Changes color of the text in the expression's JavaFX node to given color
-	 * 
+	 * Changes color of the text in the expression's node to color
+	 *
 	 * @param c
-	 *            the given color
+	 *            the color
 	 */
 	public void setColor(Color c) {
 		((Labeled) _node).setTextFill(c);

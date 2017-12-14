@@ -88,13 +88,22 @@ interface Expression {
 		}
 	}
 
+	/**
+	 * Gets the focus at click (x, y) or null if none exists
+	 *
+	 * @param x
+	 *            current x coordinate
+	 * @param y
+	 *            current y coordinate
+	 * @return the new focused Expression
+	 */
 	Expression focus(double x, double y);
 
 	/**
-	 * Changes color of the text in the expression's JavaFX node to given color
+	 * Changes color of the text in the expression's node to color
 	 * 
 	 * @param c
-	 *            the given color
+	 *            the color
 	 */
 	void setColor(Color c);
 }

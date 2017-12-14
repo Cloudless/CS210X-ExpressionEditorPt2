@@ -103,27 +103,22 @@ public abstract class AbstractCompoundExpression implements CompoundExpression {
 	}
 
 	/**
-	 * Focuses on the subexpression at scene coordinates (x,y) If no subexpression
-	 * is clicked, lor no subexpression exists, returns null
+	 * Gets the focus at click (x, y) or null if none exists
 	 * 
 	 * @param x
-	 *            scene x coordinate
+	 *            current x coordinate
 	 * @param y
-	 *            scene y coordinate
+	 *            current y coordinate
 	 * @return the new focused Expression
 	 */
 	public Expression focus(double x, double y) {
-
 		for (Expression child : _children) {
-
-			final Bounds boundsInScene = child.getNode().localToScene(child.getNode().getBoundsInLocal());
-
-			final double xMin = boundsInScene.getMinX();
-			final double xMax = boundsInScene.getMaxX();
-			final double yMin = boundsInScene.getMinY();
-			final double yMax = boundsInScene.getMaxY();
-
-			if (((x <= xMax) && (x >= xMin)) && ((y <= yMax) && (y >= yMin))) {
+			final Bounds bounds = child.getNode().localToScene(child.getNode().getBoundsInLocal());
+			final double MinX = bounds.getMinX();
+			final double MaxX = bounds.getMaxX();
+			final double MinY = bounds.getMinY();
+			final double MaxY = bounds.getMaxY();
+			if (((x <= MaxX) && (x >= MinX)) && ((y <= MaxY) && (y >= MinY))) {
 				((Region) child.getNode()).setBorder(RED_BORDER);
 				return child;
 			}
@@ -132,11 +127,10 @@ public abstract class AbstractCompoundExpression implements CompoundExpression {
 	}
 
 	/**
-	 * Changes color of the text in the expression's JavaFX node to given color Also
-	 * recursively changes the color of all children's JavaFX nodes
+	 * Changes color of the text in the expression's node to the color given.
 	 * 
 	 * @param c
-	 *            the given color
+	 *            the color
 	 */
 	public void setColor(Color c) {
 		for (Node child : ((HBox) this.getNode()).getChildren()) {

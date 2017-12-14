@@ -6,8 +6,6 @@ import javafx.geometry.Bounds;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -16,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ExpressionEditor extends Application {
@@ -29,14 +26,15 @@ public class ExpressionEditor extends Application {
 	 * Mouse event handler for the entire pane that constitutes the ExpressionEditor
 	 */
 	private static class MouseEventHandler implements EventHandler<MouseEvent> {
+
 		Pane _pane;
-		CompoundExpression _rootExpression;
-		Expression _focusedExpression;
-		Expression _copyExpression;
 		double _lastX;
 		double _lastY;
 		double _clickedX;
 		double _clickedY;
+		CompoundExpression _rootExpression;
+		Expression _focusedExpression;
+		Expression _copyExpression;
 
 		MouseEventHandler (Pane pane, CompoundExpression rootExpression) {
 			_pane = pane;
@@ -46,30 +44,28 @@ public class ExpressionEditor extends Application {
 		}
 
 		public void handle (MouseEvent event) {
-
 			final double x = event.getSceneX();
 			final double y = event.getSceneY();
-
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+				// sets the initial click (x, y)
 				_clickedX = event.getSceneX();
 				_clickedY = event.getSceneY();
 			}else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				// so long as an expression is currently in focus...
+				// checks if an expression is currently in focus.
 				if (_focusedExpression != null) {
-					//if a copy does not exist, build it
+					// if there is no copy, build a copy
 					if (_copyExpression == null && _focusedExpression.getNode().contains(_focusedExpression.getNode().sceneToLocal(x, y))) {
 						buildCopy();
-					}
-					if (_copyExpression != null) {
-						//drags around copy
+					} if (_copyExpression != null) {
+						// drag the copy
 						_copyExpression.getNode().setTranslateX(_copyExpression.getNode().getTranslateX() + (x - _lastX));
 						_copyExpression.getNode().setTranslateY(_copyExpression.getNode().getTranslateY() + (y - _lastY));
-						//swaps focused expression accordingly
+						// swap the focused expression under conditions
 						swap(_focusedExpression, _copyExpression.getNode().getLayoutX() + _copyExpression.getNode().getTranslateX());
 					}
 				}
 			} else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
-				//if there is currently no copy, then change focus
+				// if there is no copy, change the focus
 				if (_copyExpression == null) {
 					if (_focusedExpression == null) {
 						_focusedExpression = _rootExpression.focus(_clickedX, _clickedY);
@@ -78,14 +74,13 @@ public class ExpressionEditor extends Application {
 						_focusedExpression = _focusedExpression.focus(_clickedX, _clickedY);
 					}
 				} else {
-					//if there is a copy, set it down (aka set it to null and remove from pane)
+					// if there is a copy, remove it and make the original black
 					_focusedExpression.setColor(Color.BLACK);
 					_pane.getChildren().remove(_copyExpression.getNode());
 					_copyExpression = null;
 					System.out.println(_rootExpression.convertToString(0));
 				}
 			}
-
 			_lastX = x;
 			_lastY = y;
 		}
@@ -98,39 +93,38 @@ public class ExpressionEditor extends Application {
 			_focusedExpression.setColor(Expression.GHOST_COLOR);
 			_pane.getChildren().add(_copyExpression.getNode());
 
-			Bounds originalBounds = _focusedExpression.getNode().localToScene(_focusedExpression.getNode().getBoundsInLocal());
+			Bounds origBounds = _focusedExpression.getNode().localToScene(_focusedExpression.getNode().getBoundsInLocal());
 			Bounds copyBounds = _copyExpression.getNode().localToScene(_copyExpression.getNode().getBoundsInLocal());
 
-			_copyExpression.getNode().setLayoutX(originalBounds.getMinX() - copyBounds.getMinX());
-			_copyExpression.getNode().setLayoutY(originalBounds.getMinY()- copyBounds.getMinY());
+			_copyExpression.getNode().setLayoutX(origBounds.getMinX() - copyBounds.getMinX());
+			_copyExpression.getNode().setLayoutY(origBounds.getMinY()- copyBounds.getMinY());
 		}
 	}
 
 	public static void swap(Expression e, double x) {
 		if (e.getParent() != null && e.getNode() != null) {
 			final Pane p = (Pane) e.getNode().getParent();
-			// makes a copy of the node's parent's children
+			// makes a copy of the parent
 			List<Node> currentCase = FXCollections.observableArrayList(p.getChildren());
 
 			final int currentIndex = currentCase.indexOf(e.getNode());
-			// +- 2 so as to skip over operation labels
+			// used to skip the operations in between
 			final int leftIndex = currentIndex - 2;
 			final int rightIndex = currentIndex + 2;
 
-			// finding index in expression's parent's children
+			// finding the index of the expression's parent's children
 			final int expressionIndex = (int) currentIndex / 2;
 			final int leftExpressionIndex = expressionIndex - 1;
 			final int rightExpressionIndex = expressionIndex + 1;
 
-			// determining coordinates in scene
+			// determining the coordinates
 			Bounds currentBoundsInScene = e.getNode().localToScene(e.getNode().getBoundsInLocal());
 			final double currentX = currentBoundsInScene.getMinX();
-			// if there is no sibling to the left, then the farthest leftwards x coordinate would be that of this expression's JavaFX node
 			double leftX = currentX;
 			double leftWidth = 0;
 			double operatorWidth = 0;
 
-			// determining width of labels representing operations
+			// determining width of different labels
 			if (currentCase.size() > 0) {
 				if (currentIndex == 0) {
 					operatorWidth = ((Region)currentCase.get(1)).getWidth();
@@ -138,35 +132,30 @@ public class ExpressionEditor extends Application {
 					operatorWidth = ((Region)currentCase.get(currentCase.size() - 2)).getWidth();
 				}
 			}
-			// checking if this expression and its JavaFX node should be swapped with its sibling to the left
-			// first make sure there is a sibling to the left
+			// checking if this expression and its node should be swapped with the left expression.
+			// first check for expression to the left
 			if (leftIndex >= 0) {
 				Bounds leftBoundsInScene = p.getChildren().get(leftIndex).localToScene(p.getChildren().get(leftIndex).getBoundsInLocal());
-				// if the node of this expression was to be in the left position,
-				// then its x coordinate would be that of the leftwards sibling
 				leftX = leftBoundsInScene.getMinX();
 				leftWidth = leftBoundsInScene.getWidth();
-
 				if (Math.abs(x - leftX) < Math.abs(x - currentX)) {
 					Collections.swap(currentCase, currentIndex, leftIndex);
 					p.getChildren().setAll(currentCase);
-					//also swaps the expression itself, not just its JavaFX node
+					//also swaps the expression itself, not just its node
 					swapSubexpressions(e, expressionIndex, leftExpressionIndex);
 					return;
 				}
 			}
-			// checking if this expression and its JavaFX node should be swapped with its sibling to the right
-			// first make sure there is a sibling to the right
+
+			// checking if this expression and its node should be swapped with the right expression.
+			// first check for expression to the right
 			if (rightIndex < currentCase.size()) {
 				Bounds rightBoundsInScene = p.getChildren().get(rightIndex).localToScene(p.getChildren().get(rightIndex).getBoundsInLocal());
-				// if the node of this expression was to be in the right position,
-				// then its x coordinate would be the coordinate of the left sibling, the width of the left sibling, the width of this expression's node, and the width of any labels in place for operator symbols
 				final double rightX = leftX + leftWidth + operatorWidth + rightBoundsInScene.getWidth() + operatorWidth;
-
 				if (Math.abs(x - rightX) < Math.abs(x - currentX)) {
 					Collections.swap(currentCase, currentIndex, rightIndex);
 					p.getChildren().setAll(currentCase);
-					// also swaps the expression itself, not just its JavaFX node
+					// also swaps the expression itself, not just its node
 					swapSubexpressions(e, expressionIndex, rightExpressionIndex);
 					return;
 				}

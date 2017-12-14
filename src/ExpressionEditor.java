@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class ExpressionEditor extends Application {
 
-	public static void main (String[] args) {
+	public static void main(String[] args) {
 		launch(args);
 	}
 
@@ -36,32 +36,37 @@ public class ExpressionEditor extends Application {
 		Expression _focusedExpression;
 		Expression _copyExpression;
 
-		MouseEventHandler (Pane pane, CompoundExpression rootExpression) {
+		MouseEventHandler(Pane pane, CompoundExpression rootExpression) {
 			_pane = pane;
 			_rootExpression = rootExpression;
 			_focusedExpression = null;
 			_copyExpression = null;
 		}
 
-		public void handle (MouseEvent event) {
+		public void handle(MouseEvent event) {
 			final double x = event.getSceneX();
 			final double y = event.getSceneY();
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
 				// sets the initial click (x, y)
 				_clickedX = event.getSceneX();
 				_clickedY = event.getSceneY();
-			}else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+			} else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				// checks if an expression is currently in focus.
 				if (_focusedExpression != null) {
 					// if there is no copy, build a copy
-					if (_copyExpression == null && _focusedExpression.getNode().contains(_focusedExpression.getNode().sceneToLocal(x, y))) {
+					if (_copyExpression == null
+							&& _focusedExpression.getNode().contains(_focusedExpression.getNode().sceneToLocal(x, y))) {
 						buildCopy();
-					} if (_copyExpression != null) {
+					}
+					if (_copyExpression != null) {
 						// drag the copy
-						_copyExpression.getNode().setTranslateX(_copyExpression.getNode().getTranslateX() + (x - _lastX));
-						_copyExpression.getNode().setTranslateY(_copyExpression.getNode().getTranslateY() + (y - _lastY));
+						_copyExpression.getNode()
+								.setTranslateX(_copyExpression.getNode().getTranslateX() + (x - _lastX));
+						_copyExpression.getNode()
+								.setTranslateY(_copyExpression.getNode().getTranslateY() + (y - _lastY));
 						// swap the focused expression under conditions
-						swap(_focusedExpression, _copyExpression.getNode().getLayoutX() + _copyExpression.getNode().getTranslateX());
+						swap(_focusedExpression,
+								_copyExpression.getNode().getLayoutX() + _copyExpression.getNode().getTranslateX());
 					}
 				}
 			} else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
@@ -86,18 +91,20 @@ public class ExpressionEditor extends Application {
 		}
 
 		/**
-		 * Copies the focused expression and puts the copy in the same location as the original
+		 * Copies the focused expression and puts the copy in the same location as the
+		 * original
 		 */
 		private void buildCopy() {
 			_copyExpression = _focusedExpression.deepCopy();
 			_focusedExpression.setColor(Expression.GHOST_COLOR);
 			_pane.getChildren().add(_copyExpression.getNode());
 
-			Bounds origBounds = _focusedExpression.getNode().localToScene(_focusedExpression.getNode().getBoundsInLocal());
+			Bounds origBounds = _focusedExpression.getNode()
+					.localToScene(_focusedExpression.getNode().getBoundsInLocal());
 			Bounds copyBounds = _copyExpression.getNode().localToScene(_copyExpression.getNode().getBoundsInLocal());
 
 			_copyExpression.getNode().setLayoutX(origBounds.getMinX() - copyBounds.getMinX());
-			_copyExpression.getNode().setLayoutY(origBounds.getMinY()- copyBounds.getMinY());
+			_copyExpression.getNode().setLayoutY(origBounds.getMinY() - copyBounds.getMinY());
 		}
 	}
 
@@ -127,30 +134,34 @@ public class ExpressionEditor extends Application {
 			// determining width of different labels
 			if (currentCase.size() > 0) {
 				if (currentIndex == 0) {
-					operatorWidth = ((Region)currentCase.get(1)).getWidth();
+					operatorWidth = ((Region) currentCase.get(1)).getWidth();
 				} else {
-					operatorWidth = ((Region)currentCase.get(currentCase.size() - 2)).getWidth();
+					operatorWidth = ((Region) currentCase.get(currentCase.size() - 2)).getWidth();
 				}
 			}
-			// checking if this expression and its node should be swapped with the left expression.
+			// checking if this expression and its node should be swapped with the left
+			// expression.
 			// first check for expression to the left
 			if (leftIndex >= 0) {
-				Bounds leftBoundsInScene = p.getChildren().get(leftIndex).localToScene(p.getChildren().get(leftIndex).getBoundsInLocal());
+				Bounds leftBoundsInScene = p.getChildren().get(leftIndex)
+						.localToScene(p.getChildren().get(leftIndex).getBoundsInLocal());
 				leftX = leftBoundsInScene.getMinX();
 				leftWidth = leftBoundsInScene.getWidth();
 				if (Math.abs(x - leftX) < Math.abs(x - currentX)) {
 					Collections.swap(currentCase, currentIndex, leftIndex);
 					p.getChildren().setAll(currentCase);
-					//also swaps the expression itself, not just its node
+					// also swaps the expression itself, not just its node
 					swapSubexpressions(e, expressionIndex, leftExpressionIndex);
 					return;
 				}
 			}
 
-			// checking if this expression and its node should be swapped with the right expression.
+			// checking if this expression and its node should be swapped with the right
+			// expression.
 			// first check for expression to the right
 			if (rightIndex < currentCase.size()) {
-				Bounds rightBoundsInScene = p.getChildren().get(rightIndex).localToScene(p.getChildren().get(rightIndex).getBoundsInLocal());
+				Bounds rightBoundsInScene = p.getChildren().get(rightIndex)
+						.localToScene(p.getChildren().get(rightIndex).getBoundsInLocal());
 				final double rightX = leftX + leftWidth + operatorWidth + rightBoundsInScene.getWidth() + operatorWidth;
 				if (Math.abs(x - rightX) < Math.abs(x - currentX)) {
 					Collections.swap(currentCase, currentIndex, rightIndex);
@@ -165,9 +176,14 @@ public class ExpressionEditor extends Application {
 	}
 
 	/**
-	 * Switches placement in parent expression with the sibling at the given index of swapIndex
-	 * @param currentIndex index of this expression in its parent's list of children
-	 * @param swapIndex index of the sibling to switch with in the parent's list of children
+	 * Switches placement in parent expression with the sibling at the given index
+	 * of swapIndex
+	 * 
+	 * @param currentIndex
+	 *            index of this expression in its parent's list of children
+	 * @param swapIndex
+	 *            index of the sibling to switch with in the parent's list of
+	 *            children
 	 */
 	private static void swapSubexpressions(Expression e, int currentIndex, int swapIndex) {
 		Collections.swap(e.getParent().getChildren(), currentIndex, swapIndex);
@@ -189,7 +205,7 @@ public class ExpressionEditor extends Application {
 	private final ExpressionParser expressionParser = new SimpleExpressionParser();
 
 	@Override
-	public void start (Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Expression Editor");
 
 		// Add the textbox and Parser button
@@ -202,7 +218,7 @@ public class ExpressionEditor extends Application {
 
 		// Add the callback to handle when the Parse button is pressed
 		button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle (MouseEvent e) {
+			public void handle(MouseEvent e) {
 				// Try to parse the expression
 				try {
 					// Success! Add the expression's Node to the expressionPane
@@ -210,13 +226,15 @@ public class ExpressionEditor extends Application {
 					System.out.println(expression.convertToString(0));
 					expressionPane.getChildren().clear();
 					expressionPane.getChildren().add(expression.getNode());
-					expression.getNode().setLayoutX(WINDOW_WIDTH/4);
-					expression.getNode().setLayoutY(WINDOW_HEIGHT/2);
+					expression.getNode().setLayoutX(WINDOW_WIDTH / 4);
+					expression.getNode().setLayoutY(WINDOW_HEIGHT / 2);
 
-					// If the parsed expression is a CompoundExpression, then register some callbacks
+					// If the parsed expression is a CompoundExpression, then register some
+					// callbacks
 					if (expression instanceof CompoundExpression) {
 						((Pane) expression.getNode()).setBorder(Expression.NO_BORDER);
-						final MouseEventHandler eventHandler = new MouseEventHandler(expressionPane, (CompoundExpression) expression);
+						final MouseEventHandler eventHandler = new MouseEventHandler(expressionPane,
+								(CompoundExpression) expression);
 						expressionPane.setOnMousePressed(eventHandler);
 						expressionPane.setOnMouseDragged(eventHandler);
 						expressionPane.setOnMouseReleased(eventHandler);

@@ -1,3 +1,6 @@
+import javafx.geometry.Bounds;
+import javafx.scene.layout.Pane;
+
 import java.util.*;
 /**
  *
@@ -91,5 +94,31 @@ public abstract class AbstractCompoundExpression implements CompoundExpression {
      */
     public void clearSubexpression() {
         _children = new ArrayList<Expression>();
+    }
+
+    /**
+     * Focuses on the subexpression at scene coordinates (x,y)
+     * If no subexpression is clicked, lor no subexpression exists, returns null
+     * @param x scene x coordinate
+     * @param y scene y coordinate
+     * @return the new focused Expression
+     */
+    public Expression focus(double x, double y) {
+
+        for(Expression child : _children) {
+
+            final Bounds boundsInScene = child.getNode().localToScene(child.getNode().getBoundsInLocal());
+
+            final double xMin = boundsInScene.getMinX();
+            final double xMax = boundsInScene.getMaxX();
+            final double yMin = boundsInScene.getMinY();
+            final double yMax = boundsInScene.getMaxY();
+
+            if (((x <= xMax) && (x >= xMin)) && ((y <= yMax) && (y >= yMin))) {
+                ((Pane)child.getNode()).setBorder(RED_BORDER);
+                return child;
+            }
+        }
+        return null;
     }
 }

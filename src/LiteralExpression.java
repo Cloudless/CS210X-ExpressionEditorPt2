@@ -99,4 +99,8 @@ public class LiteralExpression implements Expression {
         return (converted);
     }
 
+    public Expression focus(double x, double y){
+        return null;
+    }
+
 }

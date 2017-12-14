@@ -9,4 +9,6 @@ interface CompoundExpression extends Expression {
 
 	List<Expression> getChildren();
 
+	Expression focus(double x, double y);
+
 }

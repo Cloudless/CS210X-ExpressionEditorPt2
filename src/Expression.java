@@ -75,4 +75,6 @@ interface Expression {
 		}
 	}
 
+	Expression focus(double x, double y);
+
 }

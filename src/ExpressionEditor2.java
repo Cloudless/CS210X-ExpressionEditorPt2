@@ -78,6 +78,7 @@ public class ExpressionEditor2 extends Application {
                     _focusedExpression.setColor(Color.BLACK);
                     _pane.getChildren().remove(_copyExpression.getNode());
                     _copyExpression = null;
+                    System.out.println(_rootExpression.convertToString(0));
                 }
             }
 
@@ -166,6 +167,7 @@ public class ExpressionEditor2 extends Application {
                     return;
                 }
             }
+
         }
     }
 

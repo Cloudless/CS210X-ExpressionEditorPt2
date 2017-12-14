@@ -3,6 +3,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 import java.util.*;
@@ -119,7 +120,7 @@ public abstract class AbstractCompoundExpression implements CompoundExpression {
             final double yMax = boundsInScene.getMaxY();
 
             if (((x <= xMax) && (x >= xMin)) && ((y <= yMax) && (y >= yMin))) {
-                ((Pane)child.getNode()).setBorder(RED_BORDER);
+                ((Region)child.getNode()).setBorder(RED_BORDER);
                 return child;
             }
         }

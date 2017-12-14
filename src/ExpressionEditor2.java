@@ -70,7 +70,7 @@ public class ExpressionEditor2 extends Application {
                     if (_focusedExpression == null) {
                         _focusedExpression = _rootExpression.focus(x, y);
                     } else {
-                        ((HBox) _focusedExpression.getNode()).setBorder(Expression.NO_BORDER);
+                        ((Region) _focusedExpression.getNode()).setBorder(Expression.NO_BORDER);
                         _focusedExpression = _focusedExpression.focus(x, y);
                     }
                 } else {
